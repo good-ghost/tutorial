@@ -1,0 +1,33 @@
+<!--
+  @description       : 
+  @author            : woomg@dkbmc.com
+  @group             : 
+  @last modified on  : 02-18-2021
+  @last modified by  : woomg@dkbmc.com
+  Modifications Log 
+  Ver   Date         Author            Modification
+  1.0   02-09-2021   woomg@dkbmc.com   Initial Version
+-->
+<template>
+	<div class="slds-box main">
+		CustomLookup Component Test<br/>
+		<c-custom-lookup-pro 
+			data-lookup
+			icon-name="standard:account" 
+			object-name="account" 
+			label="Account Label" 
+			required="true" 
+			onchange={changeEvent} 
+			enable-multi-record="true"></c-custom-lookup-pro>
+		<!-- Aura Component -->
+		<!--c-custom-lookup-pro 
+			data-lookup
+			iconName="standard:account" 
+			objectName="account" 
+			label="Account Label" 
+			required="true" 
+			onchange={changeEvent} 
+			enableMultiRecord="true"/-->
+
+	</div>
+</template>

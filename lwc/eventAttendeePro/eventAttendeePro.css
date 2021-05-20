@@ -1,0 +1,9 @@
+.custom-card {
+	background-color: #F3F2F2;
+	/* padding: var(--lwc-varSpacingVerticalSmall,0.75rem) var(--lwc-varSpacingHorizontalMedium, 1rem) 0.5rem !important; */
+}
+
+.small-title {
+	font-size: 0.9rem;
+	font-weight: 700;
+}

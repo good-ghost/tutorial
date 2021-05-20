@@ -1,0 +1,9 @@
+.slds-tabs_default__content {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.description {
+    font-size : 0.7rem;
+    color : #777777;
+}

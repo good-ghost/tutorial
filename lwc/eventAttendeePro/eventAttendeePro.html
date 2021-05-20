@@ -1,0 +1,70 @@
+<!--
+  @description       : 
+  @author            : woomg@dkbmc.com
+  @group             : 
+  @last modified on  : 03-04-2021
+  @last modified by  : woomg@dkbmc.com
+  Modifications Log 
+  Ver   Date         Author            Modification
+  1.0   02-26-2021   woomg@dkbmc.com   Initial Version
+-->
+<template>
+
+    <article class="slds-card slds-card_boundary">
+        <!-- card header part -->
+        <div class="slds-grid slds-page-header">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure slds-avatar slds-avatar_small">
+                    <lightning-icon icon-name="custom:custom15" alternative-text="Event Attendee"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span class="slds-truncate slds-m-right_xx-small" title="Event Attendee">Event Attendee</span>
+                    </h2>
+                </div>
+            </header>
+            <div class="slds-no-flex" >
+                <lightning-button-group>
+                    <lightning-button label="Add" onclick={clickAdd}></lightning-button>
+                </lightning-button-group>
+            </div>
+        </div>
+
+        <!-- card body part -->
+        <div class="slds-card__body" >
+            <template if:true={showSpinner}>
+                <lightning-spinner class="slds-show" alternative-text="Loading..." size="small"></lightning-spinner>
+            </template>
+            
+            <lightning-layout class="slds-wrap">
+
+                <template for:each={attendee} for:item="attendant">
+                    <lightning-layout-item key={attendant.Id} padding="horizontal-small" size="6" 
+                        medium-device-size="6" small-device-size="12" class="slds-m-top--x-small">
+                        <c-event-attendee-pro-lineitem
+                            record-id={attendant.Id}
+                            name={attendant.Relation.Name}
+                            status={attendant.Status}
+                            response={attendant.Response}
+                            onchange={reloadAttendee}></c-event-attendee-pro-lineitem>
+                    </lightning-layout-item>
+                </template>
+
+            </lightning-layout>    
+        </div>
+
+        <!--card footer part -->
+        <div class="slds-hide slds-card__footer">
+            <span class="view-all-label">
+                <a href="" alternative-text="All Event Attendee">View All</a>
+            </span>
+        </div>
+    </article>
+
+    <!-- Add Event Attendee Modal part-->
+    <template if:true={modalOpen}>
+        <c-event-attendee-pro-add event-id={recordId} existing={existing} owner-id={ownerId} account-id={accountId} 
+            onclose={closeAddAttendee}></c-event-attendee-pro-add>
+    </template>
+
+</template>

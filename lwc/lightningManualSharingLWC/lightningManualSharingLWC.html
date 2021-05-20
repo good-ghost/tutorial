@@ -1,0 +1,185 @@
+<!--
+  @description       : 
+  @author            : woomg@dkbmc.com
+  @group             : 
+  @last modified on  : 03-08-2021
+  @last modified by  : woomg@dkbmc.com
+  Modifications Log 
+  Ver   Date         Author            Modification
+  1.0   03-04-2021   woomg@dkbmc.com   Initial Version
+-->
+<template>
+	<div style="position:relative;">
+		<template if:true={showSpinner}>
+			<lightning-spinner class="slds-show" alternative-text="Loading..." size="small"></lightning-spinner>
+		</template>
+
+		<header class="slds-modal__header">
+			<h2 class="slds-modal__title slds-hyphenate">Record Share</h2>
+		</header>
+
+		<div class="slds-modal__content ">
+			<lightning-tabset selected-tab-id={selectedTabId} >
+				<lightning-tab id="permList" label="View/Edit Current Permissions">
+					<div class="modal-body scrollable"
+						style="height: 242px; max-height: 400px; overflow-y: auto !important; padding-top: 0px;">
+						<div class="slds-table_header-fixed_container" 
+							style="height: 242px;">
+							<div class="slds-scrollable_y" style="height:100%;">
+								<table class="slds-table slds-table_bordered slds-table_header-fixed">
+									<thead>
+										<tr class="slds-text-title_caps">
+											<th style="width:40px;">
+												<span class="slds-cell-fixed" style="padding: .5rem;" title="Type">Type</span>
+											</th>
+											<th>
+												<span class="slds-cell-fixed" style="padding: .5rem;" title="Name">Name</span>
+											</th>
+											<th style="width:120px;">
+												<span class="slds-cell-fixed" style="padding: .5rem;" title="Reason">Reason</span>
+											</th>
+											<th style="width:120px;">
+												<span class="slds-cell-fixed" style="padding: .5rem;" title="Permission">Permission</span>
+											</th>
+											<th style="width:50px;">
+												<span class="slds-cell-fixed" style="padding: .5rem;" title="Delete"></span>
+											</th>
+										</tr>
+									</thead>
+					
+									<tbody>
+										<template for:each={shares} for:item="share">
+											<tr key={share.UserOrGroupID} class="slds-hint-parent">
+												<td data-label="Type">
+													<template if:true={share.IsUser}>
+														<img src={share.IconName} height="32" width="32" alt={share.SubType}>
+													</template>
+													<template if:false={share.IsUser}>
+														<lightning-icon icon-name={share.IconName} alternative-text={share.SubType}></lightning-icon>
+													</template>
+												</td>
+												<td data-label="Name">
+                                                    {share.UserOrGroupName}
+                                                    <template if:true={share.IsUser}>
+                                                        <br/><span class="slds-truncate description">{share.Title}/{share.Role}/{share.Description}</span>
+                                                    </template>
+                                                </td>
+												<td data-label="Reason">{share.RowCause}</td>
+												<td data-label="Permission">
+													<template if:true={share.IsOwner}>
+														<span class="slds-badge">Owner</span>
+													</template>
+													<template if:false={share.IsOwner}>
+														<lightning-button-icon icon-name="utility:preview"  size="large" variant="brand" alternative-text="Read" class="slds-p-right_small" ></lightning-button-icon>
+														<template if:true={share.CanEdit}>
+															<lightning-button-icon icon-name="utility:edit"  size="large" variant="brand"  alternative-text="Read Write" ></lightning-button-icon>
+														</template>
+														<template if:false={share.CanEdit}>
+															<lightning-button-icon icon-name="utility:edit"  size="large" variant=""  alternative-text="Read Write" ></lightning-button-icon>
+														</template>
+													</template>
+												</td>
+												<td>
+													<template if:true={share.IsManual}>
+														<lightning-button-icon icon-name="utility:delete" name={share.UserOrGroupID} onclick={deleteSharing} variant="bare" size="large" alternative-text="Delete" ></lightning-button-icon>
+													</template>
+												</td>
+											</tr>
+										</template>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</lightning-tab>
+				<lightning-tab id="permAdd" label="Add New Permission">
+					<div class="">
+                        <!-- Tab Contents -->
+                        <div class="slds-col modal-body scrollable slds-p-around--medium" 
+                            style="height: 242px; max-height: 400px; overflow-y: auto !important;">
+        
+                            <lightning-layout class="slds-theme_shade slds-p-bottom_xx-small">
+                                <lightning-layout-item padding="horizontal-small" flexibility="grow">
+                                    <lightning-select name="selectObject" label="Search" 
+                                        options={category} onchange={changeCategory}></lightning-select>
+                                </lightning-layout-item>
+        
+                                <lightning-layout-item padding="horizontal-small" flexibility="grow">
+                                    <lightning-input name="for" label="For" type="search" onchange={search} 
+                                        placeholder="type at least 3 characters to see results"></lightning-input>
+                                    <!--aura:if isTrue="{!v.results.length >= 500 }"-->
+                                    <template if:true={morethan500}>
+                                        Your search found more than 500 results. Keep typing to make it more specific.
+                                    </template>
+                                </lightning-layout-item>
+                            </lightning-layout>
+        
+                            <div class="slds-table_header-fixed_container" 
+                                style="height: 182px; border-top: 1px solid #D3DBDA;">
+                                <div class="slds-scrollable_y" style="height:100%;">
+                                    <table class="slds-table slds-table_bordered slds-table_header-fixed">
+                                        <col width="40px"/><col width="*"/><col width="242px"/>
+                                        <thead>
+                                            <tr class="slds-text-title_caps">
+                                                <th>
+                                                    <span class="slds-cell-fixed" style="padding: .5rem;" title="Type">Type</span>
+                                                </th>
+                                                <th>
+                                                    <span class="slds-cell-fixed" style="padding: .5rem;" title="Name">Name</span>
+                                                </th>
+                                                <th>
+                                                    <span class="slds-cell-fixed" style="padding: .5rem;" title="Set Access Level">Set Access Level</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={results} for:item="result">
+                                                <tr key={result.Id} class="slds-hint-parent">
+                                                    <td data-label="Type">
+                                                        <template if:true={result.IsUser}>
+                                                            <img src={result.IconName} height="32" width="32" alt={result.Type}>
+                                                        </template>
+                                                        <template if:false={result.IsUser}>
+                                                            <lightning-icon icon-name={result.IconName} alternative-text={result.Type}></lightning-icon>
+                                                        </template>
+                                                    </td>
+                                                    <td data-label="Name">
+                                                        <span class="slds-truncate" style="max-width:315px;">{result.Name}
+                                                            <!-- <template if:true={result.Type}>
+                                                                &nbsp;({result.Type})
+                                                            </template> -->
+                                                        </span>
+                                                        <template if:true={result.IsUser}>
+                                                            <br/><span class="slds-truncate description">{result.Description}</span>
+                                                        </template>
+                                                    </td>
+                                                    <td data-label="Level" align="right">
+                                                        <lightning-button icon-name="utility:preview" name={result.Id} label="Read" onclick={setRead} class="slds-p-right_small"></lightning-button>
+                                                        <lightning-button icon-name="utility:edit" name={result.Id} label="Read/Write" onclick={setReadWrite}></lightning-button>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+        
+                        </div>
+                        <!-- End of Tab Contents -->                
+
+                    </div>
+				</lightning-tab>
+			</lightning-tabset>
+		</div>
+
+		<footer class="slds-modal__footer">
+			<template if:false={viewAdd}>
+				<lightning-button label="Finish" onclick={closeModal} variant="brand"></lightning-button>
+			</template>
+			<template if:true={viewAdd}>
+				<lightning-button label="Done" onclick={clickDone} variant="brand"></lightning-button>
+			</template>
+		</footer>
+	</div>
+
+</template>

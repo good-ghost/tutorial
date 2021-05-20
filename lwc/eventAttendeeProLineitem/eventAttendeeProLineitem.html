@@ -1,0 +1,38 @@
+<!--
+  @description	   : 
+  @author			: woomg@dkbmc.com
+  @group			 : 
+  @last modified on  : 03-02-2021
+  @last modified by  : woomg@dkbmc.com
+  Modifications Log 
+  Ver   Date		 Author			Modification
+  1.0   02-26-2021   woomg@dkbmc.com   Initial Version
+-->
+<template>
+	<div>
+		<lightning-spinner data-spinner class="slds-hide" alternative-text="Loading..." size="small"></lightning-spinner>
+		<lightning-button-menu 
+			icon-name="utility:down" 
+			alternative-text="Settings" 
+			onselect={selectMenu}
+			variant="border-filled" 
+			icon-size="x-small" 
+			class="slds-float--right" >
+			<lightning-menu-item label="Delete" value="delete" ></lightning-menu-item>
+		</lightning-button-menu>
+		
+		<div class="slds-tile">
+			<h3 class="slds-truncate primaryField">
+				<a href="javascript:void(0);">{name}</a>
+			</h3>
+			<div class="slds-tile__detail slds-text-body--medium">
+				<dl class="slds-list--horizontal slds-wrap">
+					<dt class="slds-item--label slds-truncate">Status:</dt>
+					<dd class="slds-item--detail slds-truncate">{status}</dd>
+					<dt class="slds-item--label slds-truncate">Response:</dt>
+					<dd class="slds-item--detail slds-truncate">{response}</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</template>

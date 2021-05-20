@@ -1,0 +1,28 @@
+<!--
+  @description       : 
+  @author            : woomg@dkbmc.com
+  @group             : 
+  @last modified on  : 02-16-2021
+  @last modified by  : woomg@dkbmc.com
+  Modifications Log 
+  Ver   Date         Author            Modification
+  1.0   02-16-2021   woomg@dkbmc.com   Initial Version
+-->
+<template>
+	<!-- UI Body -->
+	<li role="presentation" class="slds-listbox__item" onclick={selectRecord}>
+		<span id='listbox-option' data-optionlist class="slds-media slds-listbox__option slds-listbox__option_entity" role="option">
+			<span class="slds-media__figure">
+				<span class="slds-icon_container" title="record's icon">
+					<lightning-icon icon-name={iconName} class="slds-icon slds-icon_small" size="small" alternative-text="icon"></lightning-icon>
+				</span>
+			</span>    
+			<span class="slds-media__body">  
+				<span class="slds-listbox__option-text slds-listbox__option-text_entity">{record.Name}</span>
+				<template if:true={hasMeta}>
+					<span class="slds-listbox__option-text slds-listbox__option-text_entity">{additionalData}</span>
+				</template>
+			</span>
+		</span>
+	</li>
+</template>

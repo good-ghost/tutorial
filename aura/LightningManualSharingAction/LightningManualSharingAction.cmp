@@ -1,0 +1,27 @@
+<!--
+  @description       : 
+  @author            : woomg@dkbmc.com
+  @group             : 
+  @last modified on  : 03-08-2021
+  @last modified by  : woomg@dkbmc.com
+  Modifications Log 
+  Ver   Date         Author            Modification
+  1.0   03-04-2021   woomg@dkbmc.com   Initial Version
+-->
+<aura:component implements="force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global">
+	<aura:html tag="style">
+		.cuf-content {
+			padding: 0 0rem !important;
+		}
+		.slds-p-around--medium {
+			padding: 0rem !important;
+		}
+		.slds-modal__content{
+			overflow-y:hidden !important;
+			height:unset !important;
+			max-height:unset !important;
+		}
+	</aura:html>
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<c:lightningManualSharingLWC recordId="{!v.recordId}" onclose="{!c.closeActionModal}"/>
+</aura:component>

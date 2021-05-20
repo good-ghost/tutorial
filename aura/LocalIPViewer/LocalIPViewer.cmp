@@ -1,0 +1,24 @@
+<!--
+  @description       : 
+  @author            : woomg@dkbmc.com
+  @group             : 
+  @last modified on  : 11-05-2020
+  @last modified by  : woomg@dkbmc.com
+  Modifications Log 
+  Ver   Date         Author            Modification
+  1.0   11-05-2020   woomg@dkbmc.com   Initial Version
+-->
+<aura:component 
+    implements="force:appHostable,flexipage:availableForAllPageTypes" 
+    access="global" >
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:attribute name="localIp" type="String" default="local ip here"/>
+
+    <lightning:card title="우민균 테스트중인 컴포넌트(Local IP Address)">
+        <p class="slds-p-horizontal_small">
+            <p>IP : <lightning:formattedText value="{!v.localIp}"/></p>
+        </p>
+    </lightning:card> 
+</aura:component>
